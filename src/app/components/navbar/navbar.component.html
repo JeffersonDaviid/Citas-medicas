@@ -1,0 +1,30 @@
+<nav class="navbar">
+  <div class="navbar-logo">
+    <a routerLink="/inicio">Consultorio Médico</a>
+  </div>
+  <button class="navbar-toggle" aria-label="Abrir menú" (click)="toggleMenu()">
+    <span class="toggle-bar"></span>
+    <span class="toggle-bar"></span>
+    <span class="toggle-bar"></span>
+  </button>
+  <ul class="navbar-menu" [class.active]="menuActive">
+    <li><a routerLink="/inicio" routerLinkActive="active">Inicio</a></li>
+    <li>
+      <a routerLink="/login" routerLinkActive="active">Iniciar sesión</a>
+    </li>
+    <li>
+      <a routerLink="/register" routerLinkActive="active">Registrarse</a>
+    </li>
+
+    <!-- SOLO ES PARA PRUEBAS, ESTAS RUTAS VAN "OCULTAS", LUEGO DEL LOGIN -->
+    <li>
+      <a routerLink="/dashboard" routerLinkActive="active">Perfil doc</a>
+    </li>
+    <li>
+      <a routerLink="/register-medical-appointment" routerLinkActive="active">registro de cita</a>
+    </li>
+    <li>
+      <a routerLink="/available-dates" routerLinkActive="active">Horarios disponibles</a>
+    </li>
+  </ul>
+</nav>

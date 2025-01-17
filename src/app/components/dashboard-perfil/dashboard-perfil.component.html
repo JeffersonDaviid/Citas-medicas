@@ -1,0 +1,54 @@
+<div class="dashboard-container">
+  <!-- Encabezado -->
+  <header class="dashboard-header">
+    <div class="profile">
+      <img src="assets/avatar.png" alt="Perfil Médico" class="profile-img" />
+      <span class="profile-name">Dr. Juan Pérez</span>
+    </div>
+    <button class="logout-btn" (click)="onLogout()">Cerrar Sesión</button>
+  </header>
+
+  <!-- Contenido Principal -->
+  <main class="dashboard-main">
+    <section class="patient-table-section">
+      <h2>Lista de Pacientes</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Edad</th>
+              <th>Género</th>
+              <th>Contacto</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let patient of patients">
+              <td>{{ patient.name }}</td>
+              <td>{{ patient.age }}</td>
+              <td>{{ patient.gender }}</td>
+              <td>{{ patient.contact }}</td>
+              <td>
+                <button (click)="viewPatient(patient.id)">Ver</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+          <span>Página {{ currentPage }} de {{ totalPages }}</span>
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="calendar-section">
+      <h2>Calendario</h2>
+      <!-- <mat-calendar (selectedChange)="onDateChange($event)"></mat-calendar> -->
+    </section>
+  </main>
+
+  <!-- Botón para registrar citas -->
+  <button class="add-appointment-btn" (click)="addAppointment()">Registrar Cita</button>
+</div>
