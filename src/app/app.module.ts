@@ -12,7 +12,9 @@ import { RegistroCitaComponent } from './components/registro-cita/registro-cita.
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HorarioDisponibleComponent } from './components/horario-disponible/horario-disponible.component';
-
+import { CitasProgramadasComponent } from './components/citas-programadas/citas-programadas.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CitaDetalleComponent } from './components/cita-detalle/cita-detalle.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,8 +26,16 @@ import { HorarioDisponibleComponent } from './components/horario-disponible/hora
     RegistroCitaComponent,
     FooterComponent,
     HorarioDisponibleComponent,
+    CitasProgramadasComponent,
+    CitaDetalleComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
