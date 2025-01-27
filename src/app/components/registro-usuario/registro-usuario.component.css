@@ -44,6 +44,14 @@
   outline: none;
 }
 
+.form-group small {
+  color: #ff0000;
+}
+
+.error-message {
+  color: #ff0000;
+}
+
 .form-group input:focus {
   border-color: #0056b3;
 }

@@ -15,6 +15,7 @@ import { HorarioDisponibleComponent } from './components/horario-disponible/hora
 import { CitasProgramadasComponent } from './components/citas-programadas/citas-programadas.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CitaDetalleComponent } from './components/cita-detalle/cita-detalle.component';
+import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { CitaDetalleComponent } from './components/cita-detalle/cita-detalle.com
     HorarioDisponibleComponent,
     CitasProgramadasComponent,
     CitaDetalleComponent,
+    RecuperarContrasenaComponent,
   ],
   imports: [
     BrowserModule,
