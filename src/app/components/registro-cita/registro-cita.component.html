@@ -1,1 +1,38 @@
-<p>registro-cita works!</p>
+<div class="registro-cita-container">
+    <h2>Agendar Cita</h2>
+  
+    <form (ngSubmit)="onSubmit()" [formGroup]="registroCitaForm">
+      <div class="form-group">
+        <label for="doctor">Doctor</label>
+        <select id="doctor" formControlName="doctor" required>
+          <option *ngFor="let doctor of doctoresDisponibles" [value]="doctor.id">
+            {{ doctor.nombre }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha" formControlName="fecha" [min]="minDate" required />
+        <div *ngIf="registroCitaForm.get('fecha')?.hasError('invalidDate') && registroCitaForm.get('fecha')?.touched">
+          <small class="error">La fecha debe ser posterior a la actual.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="hora">Hora</label>
+        <select id="hora" formControlName="hora" required>
+          <option *ngFor="let hora of horasDisponibles" [value]="hora">
+            {{ hora }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="detalles">Detalles de la Cita</label>
+        <textarea id="detalles" formControlName="detalles" rows="4" placeholder="Escribe los detalles de tu cita" required></textarea>
+      </div>
+  
+      <button type="submit" [disabled]="!registroCitaForm.valid">Agendar Cita</button>
+    </form>
+  </div>
