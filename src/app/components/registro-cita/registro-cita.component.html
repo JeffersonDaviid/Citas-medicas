@@ -1,38 +1,53 @@
-<div class="registro-cita-container">
-    <h2>Agendar Cita</h2>
-  
-    <form (ngSubmit)="onSubmit()" [formGroup]="registroCitaForm">
-      <div class="form-group">
-        <label for="doctor">Doctor</label>
-        <select id="doctor" formControlName="doctor" required>
-          <option *ngFor="let doctor of doctoresDisponibles" [value]="doctor.id">
-            {{ doctor.nombre }}
-          </option>
-        </select>
-      </div>
-  
-      <div class="form-group">
-        <label for="fecha">Fecha</label>
-        <input type="date" id="fecha" formControlName="fecha" [min]="minDate" required />
-        <div *ngIf="registroCitaForm.get('fecha')?.hasError('invalidDate') && registroCitaForm.get('fecha')?.touched">
-          <small class="error">La fecha debe ser posterior a la actual.</small>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="hora">Hora</label>
-        <select id="hora" formControlName="hora" required>
-          <option *ngFor="let hora of horasDisponibles" [value]="hora">
-            {{ hora }}
-          </option>
-        </select>
-      </div>
-  
-      <div class="form-group">
-        <label for="detalles">Detalles de la Cita</label>
-        <textarea id="detalles" formControlName="detalles" rows="4" placeholder="Escribe los detalles de tu cita" required></textarea>
-      </div>
-  
-      <button type="submit" [disabled]="!registroCitaForm.valid">Agendar Cita</button>
-    </form>
+<h2>Agendar Cita</h2>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="registroCitaForm">
+  <div class="form-group">
+    <label for="especialidad">Especialidad</label>
+    <select id="especialidad" (change)="onEspecialidadChange($event)" required>
+      <option value="">Seleccione una especialidad</option>
+      <option *ngFor="let especialidad of especialidadesDisponibles" [value]="especialidad">
+        {{ especialidad }}
+      </option>
+    </select>
   </div>
+
+  <div class="form-group">
+    <label for="doctor">Doctor</label>
+    <select id="doctor" formControlName="doctor" (change)="onDoctorChange($event)" required>
+      <option value="">Seleccione un doctor</option>
+      <option *ngFor="let doctor of doctoresFiltrados" [value]="doctor._id">
+        {{ doctor.nombre }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="fecha">Fecha</label>
+    <select id="fecha" formControlName="fecha" (change)="onFechaChange($event)" required>
+      <option value="">Seleccione una fecha</option>
+      <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">
+        {{ formatFecha(fecha) }}
+      </option>
+    </select>
+    <div *ngIf="registroCitaForm.get('fecha')?.hasError('invalidDate') && registroCitaForm.get('fecha')?.touched">
+      <small class="error">La fecha debe ser posterior a la actual.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="hora">Hora</label>
+    <select id="hora" formControlName="hora" required>
+      <option value="">Seleccione una hora</option>
+      <option *ngFor="let hora of horasDisponibles" [value]="hora">
+        {{ hora }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="detalles">Detalles</label>
+    <textarea id="detalles" formControlName="detalles" rows="3" placeholder="Ingrese los detalles de la cita"></textarea>
+  </div>
+
+  <button type="submit" [disabled]="!registroCitaForm.valid">Agendar Cita</button>
+</form>
