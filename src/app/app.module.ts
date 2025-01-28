@@ -15,6 +15,9 @@ import { HorarioDisponibleComponent } from './components/horario-disponible/hora
 import { CitasProgramadasComponent } from './components/citas-programadas/citas-programadas.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CitaDetalleComponent } from './components/cita-detalle/cita-detalle.component';
+import { DoctorService } from './services/doctor.service';
+import { HorarioDisponibilidadService } from './services/horario-disponibilidad.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +39,7 @@ import { CitaDetalleComponent } from './components/cita-detalle/cita-detalle.com
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [DoctorService, HorarioDisponibilidadService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

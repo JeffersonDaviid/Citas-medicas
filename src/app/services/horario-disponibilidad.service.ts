@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Global } from './global';
 import { HorarioDisponibilidad } from '../models/horario-disponibilidad';
 
@@ -15,22 +14,7 @@ export class HorarioDisponibilidadService {
 
   getHorarios(): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.get(this.url + '/doctores', { headers: headers }).pipe(
-      map((response: any) => {
-        let horarios: HorarioDisponibilidad[] = [];
-        response.doctores.forEach((doctor: any) => {
-          doctor.horarioDisponibilidad.forEach((horario: any) => {
-            horarios.push({
-              _id: doctor._id,
-              doctor: doctor.nombre,
-              dia: horario.fecha,
-              horas: horario.hora
-            });
-          });
-        });
-        return { horarios };
-      })
-    );
+    return this._http.get(this.url + '/horarios', { headers: headers });
   }
 
   guardarHorario(horario: HorarioDisponibilidad): Observable<any> {
