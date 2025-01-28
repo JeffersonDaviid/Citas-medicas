@@ -1,1 +1,6 @@
-<p>horario-disponible works!</p>
+<div *ngFor="let horario of horarios">
+    <h3>{{ horario.dia | date: 'fullDate' }}</h3>
+    <ul>
+      <li *ngFor="let hora of horario.horas">{{ hora }}</li>
+    </ul>
+  </div>
