@@ -26,12 +26,9 @@
     <select id="fecha" formControlName="fecha" (change)="onFechaChange($event)" required>
       <option value="">Seleccione una fecha</option>
       <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">
-        {{ formatFecha(fecha) }}
+        {{ fecha }}
       </option>
     </select>
-    <div *ngIf="registroCitaForm.get('fecha')?.hasError('invalidDate') && registroCitaForm.get('fecha')?.touched">
-      <small class="error">La fecha debe ser posterior a la actual.</small>
-    </div>
   </div>
 
   <div class="form-group">

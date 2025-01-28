@@ -15,8 +15,8 @@ export class RegistroCitaComponent implements OnInit {
   doctoresDisponibles: Doctor[] = [];
   doctoresFiltrados: Doctor[] = [];
   especialidadesDisponibles: string[] = [];
-  horasDisponibles: string[] = [];
   fechasDisponibles: string[] = [];
+  horasDisponibles: string[] = [];
   minDate: string;
 
   constructor(
@@ -62,8 +62,6 @@ export class RegistroCitaComponent implements OnInit {
     }
     this.registroCitaForm.get('doctor')?.setValue('');
     this.registroCitaForm.get('fecha')?.setValue('');
-    this.registroCitaForm.get('hora')?.setValue('');
-    this.horasDisponibles = [];
     this.fechasDisponibles = [];
   }
 
@@ -73,7 +71,8 @@ export class RegistroCitaComponent implements OnInit {
     this.horarioService.getHorarios().subscribe(
       (response) => {
         const horarios = response.horarios.filter((horario: any) => horario.doctor === doctorId);
-        this.fechasDisponibles = [...new Set(horarios.map((horario: any) => horario.fecha as string))] as string[];
+        const fechasUnicas = [...new Set(horarios.map((horario: any) => horario.dia))];
+        this.fechasDisponibles = fechasUnicas.map(fecha => this.formatFecha(fecha as string));
       },
       (error) => {
         console.log(error);
@@ -83,30 +82,33 @@ export class RegistroCitaComponent implements OnInit {
 
   onFechaChange(event: Event): void {
     const selectElement = event.target as HTMLInputElement;
-    const fechaSeleccionada = selectElement.value;
+    const fechaSeleccionada = this.parseFecha(selectElement.value);
     const doctorId = this.registroCitaForm.get('doctor')?.value;
     this.horarioService.getHorarios().subscribe(
       (response) => {
-        const horarios = response.horarios.filter((horario: any) => horario.doctor === doctorId && horario.fecha === fechaSeleccionada);
+        const horarios = response.horarios.filter((horario: any) => horario.doctor === doctorId && horario.dia === fechaSeleccionada);
         this.horasDisponibles = horarios.map((horario: any) => horario.hora);
+        this.registroCitaForm.get('hora')?.setValue('');
       },
       (error) => {
         console.log(error);
       }
     );
   }
+  
 
   formatFecha(fecha: string): string {
-    if (!fecha) return '';
     const date = new Date(fecha);
-    if (isNaN(date.getTime())) return '';
-    const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const diaSemana = diasSemana[date.getDay()];
     const dia = date.getDate().toString().padStart(2, '0');
     const mes = (date.getMonth() + 1).toString().padStart(2, '0');
     const anio = date.getFullYear();
-    return `${diaSemana} ${dia}-${mes}-${anio}`;
+    return `${dia}-${mes}-${anio}`;
   }
+
+  parseFecha(fecha: string): string {
+    const [dia, mes, anio] = fecha.split('-');
+    return `${anio}-${mes}-${dia}`;
+}
 
   onSubmit(): void {
     if (this.registroCitaForm.valid) {

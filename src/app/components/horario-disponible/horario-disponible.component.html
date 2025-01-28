@@ -1,6 +1,6 @@
 <div *ngFor="let horario of horarios">
-    <h3>{{ horario.dia | date: 'fullDate' }}</h3>
+    <h3>{{ horario.fecha | date: 'fullDate' }}</h3>
     <ul>
-      <li *ngFor="let hora of horario.horas">{{ hora }}</li>
+      <li *ngFor="let hora of horario.hora">{{ hora }}</li>
     </ul>
   </div>
