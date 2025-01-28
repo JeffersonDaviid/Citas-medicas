@@ -20,19 +20,25 @@ export class CitasProgramadasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._citasService.getCitasPorFechas(new Date(), new Date()).subscribe(
-      (response) => {
-        this.listaCitasProgramadas = response;
-      },
-      (error) => {
-        console.log(<any>error);
-      }
-    );
+    const startDate = '2025-01-20';
+    const endDate = '2025-01-26';
+
+    this._citasService
+      .getCitasPorFechas(this.formatDate(startDate), this.formatDate(endDate))
+      .subscribe(
+        (response) => {
+          this.listaCitasProgramadas = response;
+          console.log(this.listaCitasProgramadas);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   getCellContent(day: string, time: string): Cita | null {
     const appointment = this.listaCitasProgramadas.find((cita) => {
-      const citaDay = this.obtenerNombreDia(cita.fechaCita);
+      const citaDay = this.obtenerNombreDia(new Date(cita.fechaCita));
       const citaTime = cita.hora;
       return citaDay === day && citaTime === time;
     });
@@ -54,13 +60,21 @@ export class CitasProgramadasComponent implements OnInit {
       'Domingo',
       'Lunes',
       'Martes',
-      'Miércoles',
+      'Miercoles',
       'Jueves',
       'Viernes',
-      'Sábado',
+      'Sabado',
     ];
 
     const dia: number = fecha.getDay();
     return diasSemana[dia];
+  }
+
+  formatDate(date: string | Date): string {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Asegura 2 dígitos
+    const day = String(d.getDate()).padStart(2, '0'); // Asegura 2 dígitos
+    return `${year}-${month}-${day}`;
   }
 }
