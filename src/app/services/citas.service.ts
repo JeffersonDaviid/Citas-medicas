@@ -47,81 +47,11 @@ export class CitasService {
     return this._http.delete(this.url + '/libro/' + id, { headers: headers });
   }
 
-  getCitasPorFechas(dateFrom: Date, dateTo: Date): Observable<any> {
+  getCitasPorFechas(dateFrom: string, dateTo: string): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    // return this._http.get(this.url + '/cita/' + dateFrom + '/' + dateTo, {
-    //   headers: headers,
-    // });
-
-    // fake response data for testing
-    return new Observable((observer) => {
-      observer.next([
-        {
-          _id: '1',
-          paciente: 'Paciente 1',
-          detalles: 'Detalles 1',
-          hora: '10:00',
-          fechaRegistro: new Date(),
-          fechaCita: new Date('2025-1-20'),
-        },
-        {
-          _id: '2',
-          paciente: 'Paciente 2',
-          detalles: 'Detalles 2',
-          hora: '11:00',
-          fechaCita: new Date(),
-          fechaRegistro: new Date(),
-        },
-        {
-          _id: '3',
-          paciente: 'Paciente 3',
-          detalles: 'Detalles 3',
-          hora: '12:00',
-          fechaRegistro: new Date('2025-01-21T12:00:00'),
-          fechaCita: new Date('2025-1-21'),
-        },
-        {
-          _id: '4',
-          paciente: 'Paciente 4',
-          detalles: 'Detalles 4',
-          hora: '13:00',
-          fechaRegistro: new Date(),
-          fechaCita: new Date('2025-1-21'),
-        },
-        {
-          _id: '5',
-          paciente: 'Paciente 5',
-          detalles: 'Detalles 5',
-          hora: '14:00',
-          fechaRegistro: new Date(),
-          fechaCita: new Date('2025-1-22'),
-        },
-        {
-          _id: '6',
-          paciente: 'Paciente 6',
-          detalles: 'Detalles 6',
-          hora: '15:00',
-          fechaRegistro: new Date(),
-          fechaCita: new Date('2025-1-23'),
-        },
-        {
-          _id: '7',
-          paciente: 'Paciente 7',
-          detalles: 'Detalles 7',
-          hora: '16:00',
-          fechaCita: new Date('2025-1-22'),
-          fechaRegistro: new Date(),
-        },
-        {
-          _id: '8',
-          paciente: 'Paciente 8',
-          detalles: 'Detalles 8',
-          hora: '17:00',
-          fechaRegistro: new Date(),
-          fechaCita: new Date('2025-1-23'),
-        },
-      ]);
+    return this._http.get(this.url + '/citas/' + dateFrom + '/' + dateTo, {
+      headers: headers,
     });
   }
 }

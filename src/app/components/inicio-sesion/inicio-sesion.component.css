@@ -65,17 +65,17 @@ button:hover {
   background-color: #003d7a;
 }
 
-.register-link {
+.help-links {
   margin-top: 15px;
   font-size: 1rem;
 }
 
-.register-link a {
+.help-links a {
   color: #0056b3;
   text-decoration: none;
 }
 
-.register-link a:hover {
+.help-links a:hover {
   text-decoration: underline;
 }
 

@@ -18,6 +18,7 @@ import { CitaDetalleComponent } from './components/cita-detalle/cita-detalle.com
 import { DoctorService } from './services/doctor.service';
 import { HorarioDisponibilidadService } from './services/horario-disponibilidad.service';
 
+import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { HorarioDisponibilidadService } from './services/horario-disponibilidad.
     HorarioDisponibleComponent,
     CitasProgramadasComponent,
     CitaDetalleComponent,
+    RecuperarContrasenaComponent,
   ],
   imports: [
     BrowserModule,

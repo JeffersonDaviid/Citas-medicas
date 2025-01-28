@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -9,8 +10,9 @@ import { Router } from '@angular/router';
 })
 export class InicioSesionComponent implements OnInit {
   loginForm!: FormGroup;
+  errorMessage: string = ''; // Mensaje general de error
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -20,11 +22,21 @@ export class InicioSesionComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.loginForm && this.loginForm.valid) {
-      // Lógica para autenticar al usuario (servicio de autenticación, etc.)
-      // Si la autenticación es exitosa, redirigir al dashboard o página principal:
-      console.log('Formulario válido, enviar solicitud de autenticación...');
-      this.router.navigate(['/dashboard']);
+    if (this.loginForm.valid) {
+      const { email, password } = this.loginForm.value;
+      console.log('Datos enviados al backend:', { email, password }); // Agregar log aquí
+  
+      this.userService.login(email, password).subscribe({
+        next: (response) => {
+          console.log('Inicio de sesión exitoso', response);
+          // Redirige al dashboard o similar
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          console.error('Error al iniciar sesión:', err);
+          this.errorMessage = err.error?.message || 'Correo o contraseña incorrectos';
+        },
+      });
     }
-  }
+  }  
 }
