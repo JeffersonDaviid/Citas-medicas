@@ -1,0 +1,100 @@
+.contenedor {
+    display: flex;
+    margin-top: 150px;
+    margin-bottom: 150px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .titulo {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .formulario {
+    margin-bottom: 15px;
+  }
+  
+  .input-form {
+    padding: 8px;
+    font-size: 1rem;
+    margin-top: 5px;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .btn-buscar {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .btn-buscar:hover {
+    background-color: #45a049;
+  }
+  
+  .mensaje-validacion {
+    margin-top: 20px;
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .error {
+    color: red;
+    font-size: 1rem;
+    padding: 10px;
+    background-color: #f8d7da;
+    border-radius: 5px;
+  }
+  
+  .resultado table {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .resultado th,
+  .resultado td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .resultado th {
+    background-color: #f2f2f2;
+  }
+  
+  .disponible {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .ocupado {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .imagen-no-hay {
+    margin-top: 30px; 
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .imagen-no-hay img {
+    max-width: 150px;
+    display: block;
+    margin: 0 auto;
+  }
+  

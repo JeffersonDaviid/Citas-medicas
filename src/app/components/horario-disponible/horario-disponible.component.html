@@ -1,6 +1,58 @@
-<div *ngFor="let horario of horarios">
-    <h3>{{ horario.fecha | date: 'fullDate' }}</h3>
-    <ul>
-      <li *ngFor="let hora of horario.hora">{{ hora }}</li>
-    </ul>
+
+<div class="contenedor">
+  <h2 class="titulo">Horarios Disponibles</h2> 
+
+  <div class="formulario">
+    <label for="doctor">Doctor:</label>
+    <select id="doctor" [(ngModel)]="doctorSeleccionado" class="input-form">
+      <option value="" disabled selected>Seleccione un Doctor</option>
+      <option *ngFor="let doctor of doctores" [value]="doctor">{{ doctor }}</option>
+    </select>
   </div>
+
+  <div class="formulario">
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" [(ngModel)]="fechaSeleccionada" class="input-form" [min]="minFechaHoy"> 
+  </div>
+
+  <button (click)="getHorario()" class="btn-buscar">Buscar</button>
+
+  <div *ngIf="mostrarMensajeValidacion" class="mensaje-validacion">
+    <p class="error">Por favor, seleccione tanto el doctor como la fecha.</p>
+  </div>
+
+  <div *ngIf="buscoHorarios">
+    <!-- Mostrar horarios solo si hay -->
+    <div *ngIf="horarios.length > 0">
+      <h3>Horarios Disponibles:</h3>
+      <div class="resultado">
+        <table>
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let horario of horarios">
+              <td>{{ horario.hora }}</td>
+              <td>
+                <span [ngClass]="horario.estado === 'Disponible' ? 'disponible' : 'ocupado'">
+                  {{ horario.estado }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- No hay horarios disponibles -->
+    <div *ngIf="horarios.length === 0">
+      <div class="imagen-no-hay">
+        <img src="assets/No-horarios.png" alt="No hay horarios" />
+      </div>
+      <p>No hay horarios disponibles para este doctor en la fecha seleccionada.</p>
+    </div>
+  </div>
+</div>
