@@ -1,7 +1,7 @@
 .contenedor {
     display: flex;
-    margin-top: 150px;
-    margin-bottom: 150px;
+    margin-top: 100px;
+    margin-bottom: 100px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -64,11 +64,14 @@
     margin-top: 20px;
     border-collapse: collapse;
     margin-bottom: 20px;
+    text-align: center;
   }
   
   .resultado th,
   .resultado td {
     padding: 10px;
+    white-space: nowrap;
+    min-width: 100px;
     border: 1px solid #ddd;
   }
   
@@ -77,15 +80,23 @@
   }
   
   .disponible {
-    color: green;
+    color:white;
+    background-color: rgba(67, 163, 67, 0.733);
     font-weight: bold;
   }
   
   .ocupado {
-    color: red;
+    color: white;
+    background-color: rgba(219, 78, 78, 0.733);
     font-weight: bold;
   }
   
+  .no-disponible {
+    background-color: rgba(236, 171, 50, 0.733);
+    color: white;
+    
+  }
+
   .imagen-no-hay {
     margin-top: 30px; 
     margin-bottom: 30px;

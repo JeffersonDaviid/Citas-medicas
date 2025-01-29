@@ -13,10 +13,14 @@ export class HorarioDisponibleComponent implements OnInit {
   horarios: HorarioDisponibilidad[] = [];
   public doctores: string[] = []; 
   public doctorSeleccionado: string = '';
-  public fechaSeleccionada: string = '';
+  public fechaInicioSeleccionada: string = '';
+  public fechaFinSeleccionada: string = '';
+  public fechasRango: string[] = []; 
+  public horasDisponibles: string[] = ['07:00', '08:00', '09:00', '10:00', '11:00'];
   buscoHorarios: boolean = false;
   mostrarMensajeValidacion: boolean = false;
   minFechaHoy: string = '';
+  maxFechaLimite: string='';
 
   constructor(private _horarioService: HorarioDisponibilidadService) {}
 
@@ -32,19 +36,21 @@ export class HorarioDisponibleComponent implements OnInit {
 
     this.getHorario();
     this.obtenerDoctores();
-    this.setMinFechaHoy();
+    this.serLimitesFecha();
   }
 
   getHorario(): void {
-    if (!this.doctorSeleccionado || !this.fechaSeleccionada) {
+    if (!this.doctorSeleccionado || !this.fechaInicioSeleccionada || !this.fechaFinSeleccionada) {
       this.mostrarMensajeValidacion = true;
-      console.warn('Debe seleccionar un doctor y una fecha.');
+      console.warn('Debe seleccionar un doctor y rango de fechas.');
       return;
     }
 
-    let fechaFormateada = this.formatearFecha(this.fechaSeleccionada);
-    
-    this._horarioService.getHorario(this.doctorSeleccionado, fechaFormateada).subscribe(
+    let fechaInicioFormateada = this.formatearFecha(this.fechaInicioSeleccionada);
+    let fechaFinFormateada = this.formatearFecha(this.fechaFinSeleccionada);
+    this.fechasRango = this.calcularRangoFechas(this.fechaInicioSeleccionada, this.fechaFinSeleccionada);
+
+    this._horarioService.getHorario(this.doctorSeleccionado, fechaInicioFormateada, fechaFinFormateada).subscribe(
       (data) => {
         console.log('Datos recibidos del backend', JSON.stringify(data,null,2));
         this.horarios = data;
@@ -57,6 +63,7 @@ export class HorarioDisponibleComponent implements OnInit {
     this.mostrarMensajeValidacion = false;
     this.buscoHorarios = true;
   }
+
   obtenerDoctores(): void {
     this._horarioService.getDoctores().subscribe(
       (data) => {
@@ -70,12 +77,31 @@ export class HorarioDisponibleComponent implements OnInit {
   formatearFecha(fecha: string): string {
     return formatDate(fecha, 'yyyy-MM-dd', 'en-US');
   }
-  setMinFechaHoy() {
+
+  serLimitesFecha() {
     const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    this.minFechaHoy = `${year}-${month}-${day}`;
+    this.minFechaHoy = today.toISOString().split('T')[0];
+
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + 7);
+    this.maxFechaLimite = maxDate.toISOString().split('T')[0];
+  }
+  calcularRangoFechas(fechaInicio: string, fechaFin: string): string[] {
+    let fechas = [];
+    let actual = new Date(fechaInicio);
+    let fin = new Date(fechaFin);
+
+    while (actual <= fin) {
+      fechas.push(actual.toISOString().split('T')[0]);
+      actual.setDate(actual.getDate() + 1);
+    }
+
+    return fechas;
+  }
+
+  getEstadoHorario(fecha: string, hora: string): string {
+    let horarioEncontrado = this.horarios.find(h => h.fecha === fecha && h.hora === hora);
+    return horarioEncontrado ? horarioEncontrado.estado : 'No Disponible';
   }
   
 }

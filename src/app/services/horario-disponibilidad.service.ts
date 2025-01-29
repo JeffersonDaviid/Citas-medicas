@@ -34,9 +34,9 @@ export class HorarioDisponibilidadService {
   }
   
   //Horario con doctor y fecha
-  getHorario(doctor: string, fecha: string): Observable<any> {
+  getHorario(doctor: string, fechaInicio: string, fechaFin: string): Observable<any> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    let params = new HttpParams().set('doctor', doctor).set('fecha', fecha);
+    let params = new HttpParams().set('doctor', doctor).set('fechaInicio', fechaInicio).set('fechaFin', fechaFin);
 
     return this._http.get(this.url + '/horarios', { headers, params }).pipe(
       map((response: any) => {
