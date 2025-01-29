@@ -1,3 +1,10 @@
+<div class="week-navigator">
+  <button (click)="previousWeek()">Anterior</button>
+  <span>{{ getWeekRangeTitle() }}</span>
+  <button (click)="nextWeek()">Siguiente</button>
+</div>
+
+
 <table class="schedule-table">
   <thead>
     <tr>

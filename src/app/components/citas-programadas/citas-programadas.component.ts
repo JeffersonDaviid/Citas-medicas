@@ -9,6 +9,10 @@ import { CitasService } from 'src/app/services/citas.service';
   providers: [CitasService],
 })
 export class CitasProgramadasComponent implements OnInit {
+  currentDate: Date = new Date();
+  startOfWeek: Date = new Date();
+  endOfWeek: Date = new Date();
+
   listaCitasProgramadas: Cita[];
 
   days: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'];
@@ -17,14 +21,15 @@ export class CitasProgramadasComponent implements OnInit {
   interval = 30;
   constructor(private _citasService: CitasService) {
     this.listaCitasProgramadas = [];
+    this.calculateWeekRange();
   }
 
   ngOnInit(): void {
-    const startDate = '2025-01-20';
-    const endDate = '2025-01-26';
-
     this._citasService
-      .getCitasPorFechas(this.formatDate(startDate), this.formatDate(endDate))
+      .getCitasPorFechas(
+        this.formatDate(this.startOfWeek),
+        this.formatDate(this.endOfWeek)
+      )
       .subscribe(
         (response) => {
           this.listaCitasProgramadas = response;
@@ -76,5 +81,59 @@ export class CitasProgramadasComponent implements OnInit {
     const month = String(d.getMonth() + 1).padStart(2, '0'); // Asegura 2 dígitos
     const day = String(d.getDate()).padStart(2, '0'); // Asegura 2 dígitos
     return `${year}-${month}-${day}`;
+  }
+
+  calculateWeekRange() {
+    const startOfWeek = new Date(this.currentDate);
+    const dayOfWeek = startOfWeek.getDay();
+    const diff = startOfWeek.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Ajuste para que la semana empiece en lunes
+    this.startOfWeek = new Date(startOfWeek.setDate(diff));
+    this.endOfWeek = new Date(startOfWeek.setDate(diff + 6));
+  }
+
+  previousWeek() {
+    this.currentDate.setDate(this.currentDate.getDate() - 7);
+    this.calculateWeekRange();
+    this._citasService
+      .getCitasPorFechas(
+        this.formatDate(this.startOfWeek),
+        this.formatDate(this.endOfWeek)
+      )
+      .subscribe(
+        (response) => {
+          this.listaCitasProgramadas = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  nextWeek() {
+    this.currentDate.setDate(this.currentDate.getDate() + 7);
+    this.calculateWeekRange();
+    this._citasService
+      .getCitasPorFechas(
+        this.formatDate(this.startOfWeek),
+        this.formatDate(this.endOfWeek)
+      )
+      .subscribe(
+        (response) => {
+          this.listaCitasProgramadas = response;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  getFormattedDate(date: Date): string {
+    return date.toLocaleDateString(); // Puedes personalizar el formato de la fecha
+  }
+
+  getWeekRangeTitle(): string {
+    return `${this.getFormattedDate(
+      this.startOfWeek
+    )} - ${this.getFormattedDate(this.endOfWeek)}`;
   }
 }
