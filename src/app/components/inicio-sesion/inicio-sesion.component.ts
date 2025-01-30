@@ -29,6 +29,8 @@ export class InicioSesionComponent implements OnInit {
       this.userService.login(email, password).subscribe({
         next: (response) => {
           console.log('Inicio de sesión exitoso', response);
+          localStorage.setItem('token', response.token); // Guardar el token en el localStorage
+          localStorage.setItem('currentUser', JSON.stringify(response.user)); // Guardar el usuario en el localStorage
           // Redirige al dashboard o similar
           this.router.navigate(['/dashboard']);
         },

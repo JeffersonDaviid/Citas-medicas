@@ -9,25 +9,12 @@
   </button>
   <ul class="navbar-menu" [class.active]="menuActive">
     <li><a routerLink="/inicio" routerLinkActive="active">Inicio</a></li>
-    <li>
-      <a routerLink="/login" routerLinkActive="active">Iniciar sesión</a>
-    </li>
-    <li>
-      <a routerLink="/registro" routerLinkActive="active">Registrarse</a>
-    </li>
-
-    <!-- SOLO ES PARA PRUEBAS, ESTAS RUTAS VAN "OCULTAS", LUEGO DEL LOGIN -->
-    <li>
-      <a routerLink="/perfil" routerLinkActive="active">Perfil doc</a>
-    </li>
-    <li>
-      <a routerLink="/registro-cita" routerLinkActive="active">Registro de cita</a>
-    </li>
-    <li>
-      <a routerLink="/horario-disponible" routerLinkActive="active">Horarios disponibles</a>
-    </li>
-    <li>
-      <a routerLink="/horario-general" routerLinkActive="active">Horario general</a>
-    </li>
+    <li *ngIf="!isAuthenticated()"><a routerLink="/login" routerLinkActive="active">Iniciar sesión</a></li>
+    <li *ngIf="!isAuthenticated()"><a routerLink="/registro" routerLinkActive="active">Registrarse</a></li>
+    <li *ngIf="isAuthenticated()"><a routerLink="/perfil" routerLinkActive="active">Perfil doc</a></li>
+    <li *ngIf="isAuthenticated()"><a routerLink="/registro-cita" routerLinkActive="active">Registro de cita</a></li>
+    <li *ngIf="isAuthenticated()"><a routerLink="/horario-disponible" routerLinkActive="active">Horarios disponibles</a></li>
+    <li *ngIf="isAuthenticated()"><a routerLink="/horario-general" routerLinkActive="active">Horario general</a></li>
+    <li *ngIf="isAuthenticated()"><button (click)="logout()" class="btn btn-danger">Cerrar Sesión</button></li>
   </ul>
 </nav>

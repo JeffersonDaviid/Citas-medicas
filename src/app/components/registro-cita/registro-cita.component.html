@@ -3,14 +3,14 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="registroCitaForm">
   <div class="form-group">
     <label for="especialidad">Especialidad</label>
-    <select id="especialidad" (change)="onEspecialidadChange($event)" required>
+    <select id="especialidad" formControlName="especialidad" (change)="onEspecialidadChange($event)" required>
       <option value="">Seleccione una especialidad</option>
       <option *ngFor="let especialidad of especialidadesDisponibles" [value]="especialidad">
         {{ especialidad }}
       </option>
     </select>
   </div>
-
+  
   <div class="form-group">
     <label for="doctor">Doctor</label>
     <select id="doctor" formControlName="doctor" (change)="onDoctorChange($event)" required>
@@ -47,4 +47,5 @@
   </div>
 
   <button type="submit" [disabled]="!registroCitaForm.valid">Agendar Cita</button>
+  <button type="button" (click)="verificarFormulario()">Verificar Formulario</button>
 </form>

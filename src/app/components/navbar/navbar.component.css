@@ -35,7 +35,13 @@
   transition: all 0.3s ease;
 }
 
-.navbar-menu li a {
+.navbar-menu li {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-menu li a,
+.navbar-menu li button {
   color: white;
   text-decoration: none;
   font-size: 1rem;
@@ -43,11 +49,25 @@
   padding: 8px 12px;
   transition: all 0.3s ease;
   border-radius: 5px;
+  background: none;
+  border: 2px solid transparent; /* Asegura que todos los elementos tengan el mismo contorno */
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Asegura que todos los elementos estén alineados verticalmente */
+  justify-content: center; /* Asegura que todos los elementos estén centrados horizontalmente */
 }
 
-.navbar-menu li a:hover {
+.navbar-menu li a:hover,
+.navbar-menu li button:hover {
   background-color: white;
   color: #0056b3;
+  border: 2px solid #0056b3; /* Contorno al hacer hover */
+}
+
+.navbar-menu li button.btn-danger:hover {
+  background-color: #d32f2f;
+  color: white;
+  border: 2px solid #d32f2f; /* Contorno al hacer hover */
 }
 
 .navbar-menu.active {
@@ -80,6 +100,7 @@
 .btn-primary:hover {
   background-color: #b3d4fc;
   color: #003a7d; /* Azul más oscuro */
+  border: 2px solid #003a7d; /* Contorno al hacer hover */
 }
 
 /* Hamburger Menu */
@@ -126,5 +147,9 @@
 
   .navbar-toggle {
     display: flex;
+  }
+
+  .navbar-menu.active li {
+    margin: 10px 0;
   }
 }
