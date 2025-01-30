@@ -5,9 +5,10 @@
     <label for="doctor">Doctor:</label>
     <select id="doctor" [(ngModel)]="doctorSeleccionado" class="input-form">
       <option value="" disabled selected>Seleccione un Doctor</option>
-      <option *ngFor="let doctor of doctores" [value]="doctor">{{ doctor }}</option>
+      <option *ngFor="let doctor of doctores" [value]="doctor._id">{{ doctor.nombre }}</option>
     </select>
   </div>
+
 
   <div class="formulario">
     <label for="fechaInicio">Fecha Inicio:</label>

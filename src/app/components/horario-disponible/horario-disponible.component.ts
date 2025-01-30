@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { HorarioDisponibilidadService } from 'src/app/services/horario-disponibilidad.service';
+import { DoctorService } from 'src/app/services/doctor.service';
 import { HorarioDisponibilidad } from 'src/app/models/horario-disponibilidad';
 import { formatDate } from '@angular/common';
+import { Doctor } from 'src/app/models/doctor';
 
 @Component({
   selector: 'app-horario-disponible',
   templateUrl: './horario-disponible.component.html',
   styleUrls: ['./horario-disponible.component.css'],
-  providers: [HorarioDisponibilidadService],
+  providers: [HorarioDisponibilidadService, DoctorService],
 })
 export class HorarioDisponibleComponent implements OnInit {
   horarios: HorarioDisponibilidad[] = [];
-  public doctores: string[] = []; 
+  public doctores: Doctor[] = []; 
   public doctorSeleccionado: string = '';
   public fechaInicioSeleccionada: string = '';
   public fechaFinSeleccionada: string = '';
@@ -22,7 +24,10 @@ export class HorarioDisponibleComponent implements OnInit {
   minFechaHoy: string = '';
   maxFechaLimite: string='';
 
-  constructor(private _horarioService: HorarioDisponibilidadService) {}
+  constructor(
+    private _horarioService: HorarioDisponibilidadService,
+    private _doctorService: DoctorService
+  ) {}
 
   ngOnInit(): void {
     this._horarioService.getHorarios().subscribe(
@@ -65,9 +70,9 @@ export class HorarioDisponibleComponent implements OnInit {
   }
 
   obtenerDoctores(): void {
-    this._horarioService.getDoctores().subscribe(
-      (data) => {
-        this.doctores = data;
+    this._doctorService.getDoctores().subscribe(
+      (response) => {
+        this.doctores = response.doctores;
       },
       (error) => {
         console.error('Error al obtener la lista de doctores:', error);

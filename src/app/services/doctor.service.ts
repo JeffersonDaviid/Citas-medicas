@@ -12,9 +12,9 @@ export class DoctorService {
     this.url = Global.url;
   }
 
-  getDoctores(): Observable<any> {
+  getDoctores(): Observable<{ doctores: Doctor[] }> {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this._http.get(this.url + '/doctores', { headers: headers });
+    return this._http.get<{ doctores: Doctor[] }>(this.url + '/doctores', { headers: headers });
   }
 
   guardarDoctor(doctor: Doctor): Observable<any> {
