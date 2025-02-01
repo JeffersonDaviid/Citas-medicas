@@ -24,6 +24,8 @@ export class RegistroCitaComponent implements OnInit {
   fechasDisponibles: string[] = [];
   horasDisponibles: string[] = [];
   minDate: string;
+  maxDate: string ='';
+  fechaDisabled: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +54,23 @@ export class RegistroCitaComponent implements OnInit {
       detalles: ['', Validators.required]
     });
     this.loadDoctores();
+    this.registroCitaForm.get('fecha')?.disable();
+  }
+
+  serLimitesFecha() {
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+
+    this.horarioService.getHorarios().subscribe(
+      (response) => {
+        const horarios = response.horarios;
+        const maxDate = new Date(Math.max(...horarios.map((horario: any) => new Date(horario.dia).getTime())));
+        this.maxDate = maxDate.toISOString().split('T')[0];
+      },
+      (error) => {
+        console.error('Error al obtener horarios:', error);
+      }
+    );
   }
 
   loadDoctores(): void {
@@ -77,6 +96,7 @@ export class RegistroCitaComponent implements OnInit {
     this.registroCitaForm.get('doctor')?.setValue('');
     this.registroCitaForm.get('fecha')?.setValue('');
     this.fechasDisponibles = [];
+    this.registroCitaForm.get('fecha')?.disable();
   }
 
   onDoctorChange(event: Event): void {
@@ -87,6 +107,10 @@ export class RegistroCitaComponent implements OnInit {
         const horarios = response.horarios.filter((horario: any) => horario.doctor === doctorId);
         const fechasUnicas = [...new Set(horarios.map((horario: any) => horario.dia))];
         this.fechasDisponibles = fechasUnicas.map(fecha => this.formatFecha(fecha as string));
+        const maxDate = new Date(Math.max(...fechasUnicas.map((fecha: any) => new Date(fecha).getTime())));
+        this.maxDate = maxDate.toISOString().split('T')[0];
+        this.fechaDisabled = false;
+        this.registroCitaForm.get('fecha')?.enable();
       },
       (error) => {
         console.log(error);
@@ -96,7 +120,7 @@ export class RegistroCitaComponent implements OnInit {
 
   onFechaChange(event: Event): void {
     const selectElement = event.target as HTMLInputElement;
-    const fechaSeleccionada = this.parseFecha(selectElement.value);
+    const fechaSeleccionada = selectElement.value;
     const doctorId = this.registroCitaForm.get('doctor')?.value;
     this.horarioService.getHorarios().subscribe(
       (response) => {
@@ -145,7 +169,7 @@ export class RegistroCitaComponent implements OnInit {
   }
 
   actualizarHorario(doctorId: string, fecha: string, hora: string): void {
-    const dia = this.parseFecha(fecha);
+    const dia = fecha;
     console.log(`Actualizando horario para el doctor ${doctorId} en el dia ${dia} a la hora ${hora}`);
     this.horarioService.getHorarios().subscribe(
       (response) => {

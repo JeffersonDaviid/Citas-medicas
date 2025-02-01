@@ -23,12 +23,7 @@
 
   <div class="form-group">
     <label for="fecha">Fecha</label>
-    <select id="fecha" formControlName="fecha" (change)="onFechaChange($event)" required>
-      <option value="">Seleccione una fecha</option>
-      <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">
-        {{ fecha }}
-      </option>
-    </select>
+    <input type="date" id="fecha" formControlName="fecha" (change)="onFechaChange($event)" [min]="minDate" [max]="maxDate" [disabled]="fechaDisabled" required>
   </div>
 
   <div class="form-group">
