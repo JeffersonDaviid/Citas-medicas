@@ -109,7 +109,7 @@ export class HorarioDisponibleComponent implements OnInit {
 
   private generarHorasDisponibles(): void {
     const inicio = 8 * 60;
-    const fin = 16 * 60;
+    const fin = 16 * 60 + 30;
     const intervalo = 30; 
 
     for (let tiempo = inicio; tiempo <= fin; tiempo += intervalo) {
