@@ -50,6 +50,61 @@ button[type="submit"] {
 }
 
 button[type="submit"]:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+  background-color: #cccccc; /* Color gris para el botón deshabilitado */
+  cursor: not-allowed; /* Cambiar el cursor a no permitido */
+}
+
+
+.modal {
+  display: block; /* Mostrar el modal */
+  position: fixed; /* Fijar el modal en la pantalla */
+  z-index: 1; /* Asegurarse de que el modal esté en el frente */
+  left: 0;
+  top: 0;
+  width: 100%; /* Ancho completo */
+  height: 100%; /* Altura completa */
+  overflow: auto; /* Habilitar el desplazamiento si es necesario */
+  background-color: rgba(0, 0, 0, 0.4); /* Fondo con opacidad */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 20% auto; /* Reducir el margen superior */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Reducir el ancho del modal */
+  max-width: 400px; /* Ancho máximo del modal */
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.modal-content.success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.modal-content.error {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.modal-content p {
+  margin: 20px 0;
+  font-size: 18px;
+}
+
+.close {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.close:hover,
+.close:focus {
+  background-color: #0056b3;
 }

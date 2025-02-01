@@ -47,5 +47,19 @@
   </div>
 
   <button type="submit" [disabled]="!registroCitaForm.valid">Agendar Cita</button>
-  <button type="button" (click)="verificarFormulario()">Verificar Formulario</button>
+  <!-- Modal de éxito -->
+<div *ngIf="successMessage" class="modal">
+  <div class="modal-content success">
+    <p>{{ successMessage }}</p>
+    <button class="close" (click)="closeModal()">Aceptar</button>
+  </div>
+</div>
+
+<!-- Modal de error -->
+<div *ngIf="errorMessage" class="modal">
+  <div class="modal-content error">
+    <p>{{ errorMessage }}</p>
+    <button class="close" (click)="closeModal()">Aceptar</button>
+  </div>
+</div>
 </form>

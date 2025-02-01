@@ -18,11 +18,17 @@ export class UserService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password });
-    tap((response: any) => {
-      localStorage.setItem('currentUser', JSON.stringify(response.user));
-      localStorage.setItem('token', response.token);
-    });
+    return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap((response: any) => {
+        console.log('Respuesta del backend:', response);
+        if (response.user && response.token) {
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
+          localStorage.setItem('token', response.token);
+        } else {
+          console.error('Respuesta incompleta del backend:', response);
+        }
+      })
+    );
   }
 
   recoverPassword(email: string, securityAnswer: string): Observable<any> {
@@ -39,9 +45,17 @@ export class UserService {
     localStorage.removeItem('token');
   }
 
-  getCurrentUser() {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
+  // src/app/services/user.service.ts
+getCurrentUser() {
+  const user = localStorage.getItem('currentUser');
+  if (user) {
+    try {
+      return JSON.parse(user);
+    } catch (error) {
+      console.error('Error al parsear el usuario almacenado:', error);
+      return null;
+    }
   }
-
+  return null;
+}
 }

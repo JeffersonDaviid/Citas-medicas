@@ -22,21 +22,27 @@ export class InicioSesionComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      console.log('Datos enviados al backend:', { email, password }); // Agregar log aquí
-  
-      this.userService.login(email, password).subscribe({
-        next: (response) => {
-          console.log('Inicio de sesión exitoso', response);
-          localStorage.setItem('token', response.token); // Guardar el token en el localStorage
-          localStorage.setItem('currentUser', JSON.stringify(response.user)); // Guardar el usuario en el localStorage
-          // Redirige al dashboard o similar
-          this.router.navigate(['/dashboard']);
-        },
-        error: (err) => {
-          console.error('Error al iniciar sesión:', err);
-          this.errorMessage = err.error?.message || 'Correo o contraseña incorrectos';
+    // src/app/components/inicio-sesion/inicio-sesion.component.ts
+if (this.loginForm.valid) {
+  const { email, password } = this.loginForm.value;
+  console.log('Datos enviados al backend:', { email, password });
+
+  this.userService.login(email, password).subscribe({
+    next: (response) => {
+      console.log('Inicio de sesión exitoso', response);
+      if (response.user) {
+        localStorage.setItem('token', response.token); // Guardar el token en el localStorage
+        localStorage.setItem('currentUser', JSON.stringify(response.user)); // Guardar el usuario en el localStorage
+        console.log(localStorage.getItem('currentUser'));
+        // Redirige al dashboard o similar
+        this.router.navigate(['/dashboard']);
+      } else {
+        console.error('Usuario no definido en la respuesta:', response);
+      }
+    },
+      error: (err) => {
+        console.error('Error al iniciar sesión:', err);
+        this.errorMessage = err.error?.message || 'Correo o contraseña incorrectos';
         },
       });
     }

@@ -16,6 +16,8 @@ import { Cita } from 'src/app/models/citas';
 })
 export class RegistroCitaComponent implements OnInit {
   registroCitaForm!: FormGroup;
+  successMessage: string = '';
+  errorMessage: string = '';
   doctoresDisponibles: Doctor[] = [];
   doctoresFiltrados: Doctor[] = [];
   especialidadesDisponibles: string[] = [];
@@ -98,7 +100,11 @@ export class RegistroCitaComponent implements OnInit {
     const doctorId = this.registroCitaForm.get('doctor')?.value;
     this.horarioService.getHorarios().subscribe(
       (response) => {
-        const horarios = response.horarios.filter((horario: any) => horario.doctor === doctorId && horario.dia === fechaSeleccionada);
+        const horarios = response.horarios.filter((horario: any) => 
+          horario.doctor === doctorId && 
+          horario.dia === fechaSeleccionada && 
+          horario.estado === 'disponible'
+        );
         this.horasDisponibles = horarios.map((horario: any) => horario.hora);
         this.registroCitaForm.get('hora')?.setValue('');
       },
@@ -122,22 +128,31 @@ export class RegistroCitaComponent implements OnInit {
   }
 
   registrarCita(formData: any): void {
+    console.log('Iniciando registro de cita con datos:', formData);
     this.citasService.guardarCita(formData).subscribe(
       (response) => {
         console.log('Cita registrada con éxito', response);
+        this.successMessage = 'Cita registrada exitosamente';
+        this.errorMessage = '';
         this.actualizarHorario(formData.doctor, formData.fecha, formData.hora);
       },
       (error) => {
         console.error('Error al registrar la cita:', error);
+        this.errorMessage = 'Error al registrar la cita';
+        this.successMessage = '';
       }
     );
   }
 
   actualizarHorario(doctorId: string, fecha: string, hora: string): void {
+    const dia = this.parseFecha(fecha);
+    console.log(`Actualizando horario para el doctor ${doctorId} en el dia ${dia} a la hora ${hora}`);
     this.horarioService.getHorarios().subscribe(
       (response) => {
-        const horario = response.horarios.find((h: any) => h.doctor === doctorId && h.dia === fecha && h.hora === hora);
+        console.log('Horarios obtenidos:', response.horarios);
+        const horario = response.horarios.find((h: any) => h.doctor === doctorId && h.dia === dia && h.hora === hora);
         if (horario) {
+          console.log('Horario encontrado:', horario);
           horario.estado = 'ocupado';
           this.horarioService.actualizarHorario(horario).subscribe(
             (res) => {
@@ -147,6 +162,8 @@ export class RegistroCitaComponent implements OnInit {
               console.error('Error al actualizar el horario:', err);
             }
           );
+        } else {
+          console.error('No se encontró el horario para actualizar.');
         }
       },
       (error) => {
@@ -154,7 +171,6 @@ export class RegistroCitaComponent implements OnInit {
       }
     );
   }
-
   onSubmit(): void {
     if (this.registroCitaForm.valid) {
       const formData = this.registroCitaForm.value;
@@ -162,7 +178,7 @@ export class RegistroCitaComponent implements OnInit {
       if (currentUser) {
         formData.cedulaPaciente = currentUser.cedula;
         formData.fechaRegistro = new Date();
-        formData.fecha = this.parseFecha(formData.fecha);
+        formData.fechaCita = this.parseFecha(formData.fecha);
         console.log('Formulario válido, enviando datos...', formData);
         this.registrarCita(formData);
       } else {
@@ -176,5 +192,17 @@ export class RegistroCitaComponent implements OnInit {
   verificarFormulario(): void {
     console.log('Estado del formulario:', this.registroCitaForm);
     console.log('Datos del formulario:', this.registroCitaForm.value);
+  }
+
+  closeModal(): void {
+    this.successMessage = '';
+    this.errorMessage = '';
+    this.registroCitaForm.reset({
+      especialidad: '',
+      doctor: '',
+      fecha: '',
+      hora: '',
+      detalles: ''
+    });
   }
 }
