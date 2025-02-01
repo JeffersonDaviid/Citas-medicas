@@ -38,16 +38,10 @@ export class HorarioDisponibilidadService {
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     let params = new HttpParams().set('doctor', doctor).set('fechaInicio', fechaInicio).set('fechaFin', fechaFin);
 
-    return this._http.get(this.url + '/horarios', { headers, params }).pipe(
+    return this._http.get(this.url + '/horariosD', { headers, params }).pipe(
       map((response: any) => {
         return response.horarios; 
       })
-    );
-  }
-  //para mostrar en el front
-  getDoctores(): Observable<string[]> {
-    return this._http.get<{ doctores: string[] }>(this.url + '/doctores').pipe(
-      map(response => response.doctores)
     );
   }
 

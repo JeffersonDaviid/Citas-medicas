@@ -11,15 +11,15 @@
 
 
   <div class="formulario">
-    <label for="fechaInicio">Fecha Inicio:</label>
-    <input type="date" id="fechaInicio" [(ngModel)]="fechaInicioSeleccionada" class="input-form" 
-           [min]="minFechaHoy" [max]="maxFechaLimite">
+    <label for="diaInicio">Fecha Inicio:</label>
+    <input type="date" id="diaInicio" [(ngModel)]="diaInicioSeleccionada" class="input-form" 
+           [min]="minDiaHoy" [max]="maxDiaLimite">
   </div>
   
   <div class="formulario">
-    <label for="fechaFin">Fecha Fin:</label>
-    <input type="date" id="fechaFin" [(ngModel)]="fechaFinSeleccionada" class="input-form"
-          [min]="minFechaHoy" [max]="maxFechaLimite">
+    <label for="diaFin">Fecha Fin:</label>
+    <input type="date" id="diaFin" [(ngModel)]="diaFinSeleccionada" class="input-form"
+          [min]="minDiaHoy" [max]="maxDiaLimite">
   </div>
 
   <button (click)="getHorario()" class="btn-buscar">Buscar</button>
@@ -32,17 +32,17 @@
           <thead>
             <tr>
               <th>Hora</th>
-              <th *ngFor="let fecha of fechasRango">{{ fecha | date:'EEEE dd/MM'}}</th>
+              <th *ngFor="let dia of diasRango">{{ dia | date:'EEEE dd/MM'}}</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let hora of horasDisponibles">
               <td>{{ hora }}</td>
-              <td *ngFor="let fecha of fechasRango" [ngClass]="{
-                  'disponible': getEstadoHorario(fecha, hora) === 'Disponible',
-                  'ocupado': getEstadoHorario(fecha, hora) === 'Ocupado',
-                  'no-disponible': getEstadoHorario(fecha, hora) === 'No Disponible'}">
-                {{ getEstadoHorario(fecha, hora) }}
+              <td *ngFor="let dia of diasRango" [ngClass]="{
+                  'disponible': getEstadoHorario(dia, hora) === 'disponible',
+                  'ocupado': getEstadoHorario(dia, hora) === 'ocupado',
+                  'no-disponible': getEstadoHorario(dia, hora) === 'No Disponible'}">
+                {{ getEstadoHorario(dia, hora) }}
               </td>
             </tr>
           </tbody>

@@ -13,21 +13,20 @@ import { Doctor } from 'src/app/models/doctor';
 })
 export class HorarioDisponibleComponent implements OnInit {
   horarios: HorarioDisponibilidad[] = [];
-  public doctores: Doctor[] = []; 
+  public doctores: Doctor[] = [];
   public doctorSeleccionado: string = '';
-  public fechaInicioSeleccionada: string = '';
-  public fechaFinSeleccionada: string = '';
-  public fechasRango: string[] = []; 
-  public horasDisponibles: string[] = ['07:00', '08:00', '09:00', '10:00', '11:00'];
+  public diaInicioSeleccionada: string = '';
+  public diaFinSeleccionada: string = '';
+  public diasRango: string[] = [];
+  public horasDisponibles: string[] = [];
   buscoHorarios: boolean = false;
-  mostrarMensajeValidacion: boolean = false;
-  minFechaHoy: string = '';
-  maxFechaLimite: string='';
+  minDiaHoy: string = '';
+  maxDiaLimite: string = '';
 
   constructor(
     private _horarioService: HorarioDisponibilidadService,
     private _doctorService: DoctorService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this._horarioService.getHorarios().subscribe(
@@ -39,25 +38,25 @@ export class HorarioDisponibleComponent implements OnInit {
       }
     );
 
-    this.getHorario();
     this.obtenerDoctores();
     this.serLimitesFecha();
+    this.generarHorasDisponibles();
   }
 
   getHorario(): void {
-    if (!this.doctorSeleccionado || !this.fechaInicioSeleccionada || !this.fechaFinSeleccionada) {
-      this.mostrarMensajeValidacion = true;
+    if (!this.doctorSeleccionado || !this.diaInicioSeleccionada || !this.diaFinSeleccionada) {
+      alert('Por favor, seleccione un doctor y proporcione las fechas antes de buscar.');
       console.warn('Debe seleccionar un doctor y rango de fechas.');
       return;
     }
 
-    let fechaInicioFormateada = this.formatearFecha(this.fechaInicioSeleccionada);
-    let fechaFinFormateada = this.formatearFecha(this.fechaFinSeleccionada);
-    this.fechasRango = this.calcularRangoFechas(this.fechaInicioSeleccionada, this.fechaFinSeleccionada);
+    let diaInicioFormateada = this.formatearFecha(this.diaInicioSeleccionada);
+    let diaFinFormateada = this.formatearFecha(this.diaFinSeleccionada);
+    this.diasRango = this.calcularRangoFechas(this.diaInicioSeleccionada, this.diaFinSeleccionada);
 
-    this._horarioService.getHorario(this.doctorSeleccionado, fechaInicioFormateada, fechaFinFormateada).subscribe(
+    this._horarioService.getHorario(this.doctorSeleccionado, diaInicioFormateada, diaFinFormateada).subscribe(
       (data) => {
-        console.log('Datos recibidos del backend', JSON.stringify(data,null,2));
+        console.log('Datos recibidos del backend', JSON.stringify(data, null, 2));
         this.horarios = data;
       },
       (error) => {
@@ -65,7 +64,6 @@ export class HorarioDisponibleComponent implements OnInit {
         this.horarios = [];
       }
     );
-    this.mostrarMensajeValidacion = false;
     this.buscoHorarios = true;
   }
 
@@ -79,22 +77,22 @@ export class HorarioDisponibleComponent implements OnInit {
       }
     );
   }
-  formatearFecha(fecha: string): string {
-    return formatDate(fecha, 'yyyy-MM-dd', 'en-US');
+  formatearFecha(dia: string): string {
+    return formatDate(dia, 'yyyy-MM-dd', 'en-US');
   }
 
   serLimitesFecha() {
     const today = new Date();
-    this.minFechaHoy = today.toISOString().split('T')[0];
+    this.minDiaHoy = today.toISOString().split('T')[0];
 
     const maxDate = new Date();
     maxDate.setDate(today.getDate() + 7);
-    this.maxFechaLimite = maxDate.toISOString().split('T')[0];
+    this.maxDiaLimite = maxDate.toISOString().split('T')[0];
   }
-  calcularRangoFechas(fechaInicio: string, fechaFin: string): string[] {
+  calcularRangoFechas(diaInicio: string, diaFin: string): string[] {
     let fechas = [];
-    let actual = new Date(fechaInicio);
-    let fin = new Date(fechaFin);
+    let actual = new Date(diaInicio);
+    let fin = new Date(diaFin);
 
     while (actual <= fin) {
       fechas.push(actual.toISOString().split('T')[0]);
@@ -104,9 +102,21 @@ export class HorarioDisponibleComponent implements OnInit {
     return fechas;
   }
 
-  getEstadoHorario(fecha: string, hora: string): string {
-    let horarioEncontrado = this.horarios.find(h => h.fecha === fecha && h.hora === hora);
+  getEstadoHorario(dia: string, hora: string): string {
+    let horarioEncontrado = this.horarios.find(h => h.dia === dia && h.hora === hora);
     return horarioEncontrado ? horarioEncontrado.estado : 'No Disponible';
   }
-  
+
+  private generarHorasDisponibles(): void {
+    const inicio = 8 * 60;
+    const fin = 16 * 60;
+    const intervalo = 30; 
+
+    for (let tiempo = inicio; tiempo <= fin; tiempo += intervalo) {
+      const horas = Math.floor(tiempo / 60);
+      const minutos = tiempo % 60;
+      this.horasDisponibles.push(`${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}`);
+    }
+  }
+
 }
