@@ -119,6 +119,7 @@ button:hover {
 /* Calendario */
 .calendar-section {
   flex: 1;
+  padding: 16px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -129,6 +130,10 @@ button:hover {
 .calendar-section h2 {
   color: #0056b3;
   margin-bottom: 20px;
+}
+
+mat-calendar {
+  margin: 0 auto;
 }
 
 /* Botón Registrar Cita */
