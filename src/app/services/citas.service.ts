@@ -19,8 +19,12 @@ export class CitasService {
 
   guardarCita(cita: Cita): Observable<any> {
     let params = JSON.stringify(cita);
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${token}`); // Incluir el token en el encabezado
 
+    console.log('Enviando solicitud para guardar cita con headers:', headers);
     return this._http.post(this.url + '/guardar-cita', params, {
       headers: headers,
     });
