@@ -1,15 +1,38 @@
-<div class="cita-detalle" *ngIf="cita">
-  <h2 class="title">Detalles de la Cita</h2>
-  <ul class="details">
-    <li><strong>ID:</strong> {{ cita._id }}</li>
-    <li><strong>Paciente:</strong> {{ cita.cedulaPaciente }}</li>
-    <li><strong>Detalles:</strong> {{ cita.detalles }}</li>
-    <li><strong>Hora:</strong> {{ cita.hora }}</li>
-    <li><strong>Fecha de Registro:</strong> {{ cita.fechaRegistro | date:'fullDate' }}</li>
-    <li><strong>Fecha de Cita:</strong> {{ cita.fechaCita | date:'fullDate' }}</li>
-  </ul>
+<div class="cita-detalle-container" *ngIf="cita; else noCita">
+  <h1 class="title">Detalles de la Cita</h1>
+  <div class="cita-detalle-grid">
+    <div class="cita-section">
+      <h2 class="section-title">Información General</h2>
+      <ul class="details">
+        <li><strong>ID:</strong> {{ cita._id }}</li>
+        <li><strong>Fecha de Cita:</strong> {{ cita.fechaCita | date:'fullDate' }}</li>
+        <li><strong>Hora:</strong> {{ cita.hora }}</li>
+        <li><strong>Detalles:</strong> {{ cita.detalles }}</li>
+      </ul>
+    </div>
+
+    <div class="cita-section">
+      <h2 class="section-title">Paciente</h2>
+      <ul class="details">
+        <li><strong>Nombre:</strong> {{ cita.paciente.nombre }}</li>
+        <li><strong>Cédula:</strong> {{ cita.paciente.cedula }}</li>
+        <li><strong>Teléfono:</strong> {{ cita.paciente.telefono }}</li>
+        <li><strong>Email:</strong> {{ cita.paciente.email }}</li>
+      </ul>
+    </div>
+
+    <div class="cita-section">
+      <h2 class="section-title">Doctor</h2>
+      <ul class="details">
+        <li><strong>Nombre:</strong> {{ cita.doctor.nombre }}</li>
+        <li><strong>Especialidad:</strong> {{ cita.doctor.especialidad }}</li>
+      </ul>
+    </div>
+  </div>
 </div>
 
-<div class="cita-detalle" *ngIf="!cita">
-  <h2 class="title">No se pueden ver detalles</h2>
-</div>
+<ng-template #noCita>
+  <div class="no-cita">
+    <h1 class="title">No se pueden ver detalles</h1>
+  </div>
+</ng-template>

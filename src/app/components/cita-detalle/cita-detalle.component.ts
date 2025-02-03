@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Cita } from 'src/app/models/citas';
+import { Cita, CitaDetalles } from 'src/app/models/citas';
 import { CitasService } from 'src/app/services/citas.service';
 
 @Component({
@@ -11,8 +11,7 @@ import { CitasService } from 'src/app/services/citas.service';
 })
 export class CitaDetalleComponent implements OnInit {
   citaId = '';
-  cedulaPaciente = '';
-  cita?: Cita;
+  cita?: CitaDetalles;
   constructor(
     private _thisRoute: ActivatedRoute,
     private _citaService: CitasService
