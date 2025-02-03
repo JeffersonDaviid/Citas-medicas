@@ -31,7 +31,10 @@ export class CitasService {
   }
 
   getCita(id: string): Observable<any> {
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${token}`);
 
     return this._http.get(this.url + '/cita/' + id, { headers: headers });
   }
@@ -52,7 +55,10 @@ export class CitasService {
   }
 
   getCitasPorFechas(dateFrom: string, dateTo: string): Observable<any> {
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let token = localStorage.getItem('token');
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${token}`);
 
     return this._http.get(this.url + '/citas/' + dateFrom + '/' + dateTo, {
       headers: headers,
