@@ -36,19 +36,25 @@
           </tbody>
         </table>
         <div class="pagination">
-          <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+          <button (click)="previousPage()" [disabled]="currentPage === 1">
+            Anterior
+          </button>
           <span>Página {{ currentPage }} de {{ totalPages }}</span>
-          <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+            Siguiente
+          </button>
         </div>
       </div>
     </section>
 
     <section class="calendar-section">
       <h2>Calendario</h2>
-      <!-- <mat-calendar (selectedChange)="onDateChange($event)"></mat-calendar> -->
+      <mat-calendar (selectedChange)="onDateChange($event)"></mat-calendar>
     </section>
   </main>
 
   <!-- Botón para registrar citas -->
-  <button class="add-appointment-btn" (click)="addAppointment()">Registrar Cita</button>
+  <button class="add-appointment-btn" (click)="addAppointment()">
+    Registrar Cita
+  </button>
 </div>
