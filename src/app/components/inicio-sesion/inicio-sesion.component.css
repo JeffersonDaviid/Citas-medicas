@@ -1,63 +1,76 @@
-/* Estilo para el Login */
+/* Contenedor principal del formulario */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-color: #f7f7f7;
-  padding: 0 20px;
+  height: 100vh;
+  background-color: #ffffff;
 }
 
 .login-form {
   background-color: #ffffff;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
-  text-align: center;
 }
 
-.login-form h2 {
+h2 {
+  text-align: center;
   color: #0056b3;
   margin-bottom: 20px;
+  font-size: 1.8rem;
 }
 
+/* Estilo de los campos de entrada y el select */
 .form-group {
   margin-bottom: 20px;
-  text-align: left;
 }
 
-.form-group label {
+label {
   display: block;
+  font-size: 1rem;
   font-weight: bold;
   color: #333;
+  margin-bottom: 5px;
 }
 
-.form-group input {
+input,
+select {
   width: 100%;
   padding: 12px;
-  margin-top: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
   font-size: 1rem;
-  outline: none;
+  transition: all 0.3s ease;
 }
 
-.form-group input:focus {
+input:focus,
+select:focus {
   border-color: #0056b3;
+  box-shadow: 0 0 8px rgba(0, 86, 179, 0.5);
 }
 
-button {
-  background-color: #0056b3;
-  color: #fff;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
+/* Estilo personalizado para el select */
+select {
+  background-color: #ffffff;
+  color: #333;
+  font-weight: bold;
   cursor: pointer;
+}
+
+/* Botón de inicio de sesión */
+button {
   width: 100%;
-  margin-top: 20px;
+  padding: 12px;
+  background-color: #0056b3;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
@@ -65,33 +78,40 @@ button:hover {
   background-color: #003d7a;
 }
 
-.help-links {
+/* Estilo para el enlace de "¿Olvidaste tu contraseña?" */
+.forgot-password {
+  text-align: center;
   margin-top: 15px;
+}
+
+.forgot-password a {
   font-size: 1rem;
-}
-
-.help-links a {
   color: #0056b3;
+  font-weight: bold;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-.help-links a:hover {
+.forgot-password a:hover {
+  color: #003d7a;
   text-decoration: underline;
 }
 
-/* Responsividad */
-@media (max-width: 768px) {
-  .login-form {
-    padding: 30px;
-    width: 100%;
-  }
+/* Mensaje de error */
+.error-message {
+  color: #d32f2f;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
 
-  .form-group input {
-    padding: 10px;
-    font-size: 0.9rem;
-  }
+/* Enlace de registro */
+.register-link a {
+  color: #0056b3;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-  button {
-    padding: 10px 15px;
-  }
+.register-link a:hover {
+  text-decoration: underline;
 }
