@@ -147,7 +147,7 @@ export class RegistroCitaComponent implements OnInit {
   }
 
   parseFecha(fecha: string): string {
-    const [dia, mes, anio] = fecha.split('-');
+    const [anio, mes, dia] = fecha.split('-');
     return `${anio}-${mes}-${dia}`;
   }
 
