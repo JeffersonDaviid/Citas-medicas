@@ -15,6 +15,16 @@
         <input type="password" id="password" formControlName="password" placeholder="Ingrese su contraseña" />
       </div>
 
+      <!-- Tipo de Usuario -->
+      <div class="form-group">
+        <label for="tipoUsuario">Tipo de Usuario</label>
+        <select formControlName="tipoUsuario" id="tipoUsuario">
+          <option value=""></option>
+          <option value="paciente">Paciente</option>
+          <option value="doctor">Doctor</option>
+        </select>
+      </div>
+
       <!-- Botón de envío -->
       <button type="submit" [disabled]="!loginForm.valid">Iniciar sesión</button>
     </form>
