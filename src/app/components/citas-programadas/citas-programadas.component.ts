@@ -13,14 +13,13 @@ export class CitasProgramadasComponent implements OnInit {
   startOfWeek: Date = new Date();
   endOfWeek: Date = new Date();
 
-  listaCitasProgramadas: Cita[];
+  listaCitasProgramadas: Cita[] = [];
 
   days: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'];
   startTime = 9;
   endTime = 18;
   interval = 30;
   constructor(private _citasService: CitasService) {
-    this.listaCitasProgramadas = [];
     this.calculateWeekRange();
   }
 
@@ -42,7 +41,7 @@ export class CitasProgramadasComponent implements OnInit {
   }
 
   getCellContent(day: string, time: string): Cita | null {
-    const appointment = this.listaCitasProgramadas.find((cita) => {
+    const appointment = this.listaCitasProgramadas?.find((cita) => {
       const citaDay = this.obtenerNombreDia(new Date(cita.fechaCita));
       const citaTime = cita.hora;
       return citaDay === day && citaTime === time;
