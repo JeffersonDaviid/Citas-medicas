@@ -9,51 +9,29 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardPerfilComponent implements OnInit {
   patients = [
     {
-      id: 1,
-      name: 'Paciente 1',
-      age: 35,
+      id: 10,
+      name: 'Martín Castillo',
+      age: 37,
       gender: 'Masculino',
-      contact: '123-456-7890',
+      contact: '099-012-3456',
     },
     {
-      id: 2,
-      name: 'Paciente 2',
-      age: 42,
+      id: 11,
+      name: 'Sofía Herrera',
+      age: 31,
       gender: 'Femenino',
-      contact: '987-654-3210',
+      contact: '098-123-4567',
     },
     {
-      id: 2,
-      name: 'Paciente 2',
-      age: 42,
-      gender: 'Femenino',
-      contact: '987-654-3210',
-    },
-    {
-      id: 2,
-      name: 'Paciente 2',
-      age: 42,
-      gender: 'Femenino',
-      contact: '987-654-3210',
-    },
-    {
-      id: 2,
-      name: 'Paciente 2',
-      age: 42,
-      gender: 'Femenino',
-      contact: '987-654-3210',
-    },
-    {
-      id: 2,
-      name: 'Paciente 2',
-      age: 42,
-      gender: 'Femenino',
-      contact: '987-654-3210',
-    },
-    // Más datos...
+      id: 12,
+      name: 'Diego Ramírez',
+      age: 40,
+      gender: 'Masculino',
+      contact: '097-234-5678',
+    }
   ];
   currentPage = 1;
-  totalPages = 5;
+  totalPages = 2;
 
   // Fecha seleccionada
   selectedDate: Date | null = null;
