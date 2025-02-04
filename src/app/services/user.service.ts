@@ -20,7 +20,10 @@ export class UserService {
   }
 
   register(usuario: any): Observable<any> {
-    return this._http.post(`${this.apiUsuariosUrl}/register`, usuario);
+    return this._http.post(
+      `${this.url + this.apiUsuariosUrl}/register`,
+      usuario
+    );
   }
 
   login(email: string, password: string, tipoUsuario: string): Observable<any> {
@@ -53,10 +56,13 @@ export class UserService {
   }
 
   recoverPassword(email: string, securityAnswer: string): Observable<any> {
-    return this._http.post(`${this.apiUsuariosUrl}/recover-password`, {
-      email,
-      securityAnswer,
-    });
+    return this._http.post(
+      `${this.url + this.apiUsuariosUrl}/recover-password`,
+      {
+        email,
+        securityAnswer,
+      }
+    );
   }
 
   isAuthenticated(): boolean {
