@@ -3,25 +3,34 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
+import { Global } from './global';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUsuariosUrl = 'http://localhost:3600/api/usuarios';
-  private apiDoctoresUrl = 'http://localhost:3600/api/doctores';
+  public url: string;
+
+  private apiUsuariosUrl = '/api/usuarios';
+  private apiDoctoresUrl = '/api/doctores';
   private currentUser: Usuario | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private _http: HttpClient) {
+    this.url = Global.url;
+  }
 
   register(usuario: any): Observable<any> {
-    return this.http.post(`${this.apiUsuariosUrl}/register`, usuario);
+    return this._http.post(`${this.apiUsuariosUrl}/register`, usuario);
   }
 
   login(email: string, password: string, tipoUsuario: string): Observable<any> {
-    return this.http
+    return this._http
       .post(
-        `${tipoUsuario === 'doctor' ? this.apiDoctoresUrl : this.apiUsuariosUrl}/login`,
+        `${
+          tipoUsuario === 'doctor'
+            ? this.url + this.apiDoctoresUrl
+            : this.url + this.apiUsuariosUrl
+        }/login`,
         { email, password }
       )
       .pipe(
@@ -32,7 +41,10 @@ export class UserService {
             localStorage.setItem('currentUser', JSON.stringify(response.user));
           } else if (tipoUsuario === 'doctor' && response.doctor) {
             // Para doctores: almacenar solo la información del doctor
-            localStorage.setItem('currentUser', JSON.stringify(response.doctor));
+            localStorage.setItem(
+              'currentUser',
+              JSON.stringify(response.doctor)
+            );
           } else {
             console.error('Respuesta inesperada del servidor:', response);
           }
@@ -41,7 +53,7 @@ export class UserService {
   }
 
   recoverPassword(email: string, securityAnswer: string): Observable<any> {
-    return this.http.post(`${this.apiUsuariosUrl}/recover-password`, {
+    return this._http.post(`${this.apiUsuariosUrl}/recover-password`, {
       email,
       securityAnswer,
     });
