@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-perfil',
@@ -7,82 +8,90 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-perfil.component.css'],
 })
 export class DashboardPerfilComponent implements OnInit {
-  patients = [
-    {
-      id: 10,
-      name: 'Martín Castillo',
-      age: 37,
-      gender: 'Masculino',
-      contact: '099-012-3456',
-    },
-    {
-      id: 11,
-      name: 'Sofía Herrera',
-      age: 31,
-      gender: 'Femenino',
-      contact: '098-123-4567',
-    },
-    {
-      id: 12,
-      name: 'Diego Ramírez',
-      age: 40,
-      gender: 'Masculino',
-      contact: '097-234-5678',
-    }
-  ];
-  currentPage = 1;
-  totalPages = 2;
+  doctorName: string = ''; // Nombre del doctor
+  doctorId: string = ''; // ID del doctor
+  appointments: any[] = []; // Lista de citas asignadas al doctor
+  paginatedAppointments: any[] = []; // Lista de citas en la página actual
+  selectedDate: Date | null = null; // Fecha seleccionada en el calendario
+  currentPage = 1; // Página actual
+  itemsPerPage = 6; // Número de citas por página
+  totalPages = 1; // Total de páginas calculadas
 
-  // Fecha seleccionada
-  selectedDate: Date | null = null;
-  // Citas cargadas desde el backend
-  appointments: any[] = [];
+  // Inyección de dependencias para HttpClient y Router
+  constructor(private http: HttpClient, private router: Router) {}
 
-  constructor(private http: HttpClient) {}
+  ngOnInit(): void {
+    // Obtener el nombre y el ID del doctor desde localStorage
+    const doctor = JSON.parse(localStorage.getItem('doctor') || '{}');
+    this.doctorName = doctor.nombre || 'Usuario Anónimo';
+    this.doctorId = doctor._id || '';
 
-  ngOnInit(): void {}
-
-  onLogout(): void {
-    console.log('Cerrar sesión');
+    // Si es necesario, cargar citas para la fecha actual al iniciar
+    const today = new Date();
+    this.selectedDate = today;
+    this.getCitasPorDoctorYFecha();
   }
 
-  // Método que maneja la selección de la fecha en el calendario
+  // Método que maneja la selección de una fecha en el calendario
   onDateChange(date: Date): void {
     this.selectedDate = date;
-    console.log('Fecha seleccionada:', date);
-    // Lógica para filtrar pacientes por fecha.
-    // Llama al backend para obtener las citas del día seleccionado
-    this.getCitasPorFecha(this.selectedDate);
+    if (this.selectedDate) {
+      this.getCitasPorDoctorYFecha();
+    }
   }
 
-  // Método para obtener las citas del día desde el backend
-  getCitasPorFecha(date: Date): void {
-    const formattedDate = date.toISOString().split('T')[0]; // Formatea la fecha como YYYY-MM-DD
-    this.http.get(`http://localhost:3600/citas-por-fecha?fecha=${formattedDate}`).subscribe(
+  // Método para obtener las citas asignadas al doctor en una fecha específica
+  getCitasPorDoctorYFecha(): void {
+    if (!this.doctorId || !this.selectedDate) {
+      console.error('El ID del doctor o la fecha seleccionada son inválidos.');
+      return;
+    }
+
+    const formattedDate = this.selectedDate.toISOString().split('T')[0]; // Formatear fecha como YYYY-MM-DD
+    const url = `http://localhost:3600/citas-doctor/${this.doctorId}/fecha?fecha=${formattedDate}`;
+
+    this.http.get(url).subscribe(
       (response: any) => {
-        this.appointments = response.citas; // Asigna las citas recibidas
-        console.log('Citas para la fecha seleccionada:', this.appointments);
+        this.appointments = response.citas || []; // Guardar todas las citas
+        this.totalPages = Math.ceil(this.appointments.length / this.itemsPerPage); // Calcular el total de páginas
+        this.updatePaginatedAppointments(); // Actualizar las citas para la página actual
       },
       (error) => {
-        console.error('Error al obtener citas:', error);
+        console.error('Error al obtener citas por fecha:', error);
+        this.appointments = [];
+        this.paginatedAppointments = [];
+        this.totalPages = 1;
       }
     );
   }
-  
 
-  addAppointment(): void {
-    console.log('Registrar cita');
+  // Actualizar las citas para la página actual
+  updatePaginatedAppointments(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedAppointments = this.appointments.slice(startIndex, endIndex);
   }
 
-  viewPatient(id: number): void {
-    console.log('Ver detalles del paciente:', id);
-  }
-
+  // Métodos de paginación
   previousPage(): void {
-    if (this.currentPage > 1) this.currentPage--;
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedAppointments();
+    }
   }
 
   nextPage(): void {
-    if (this.currentPage < this.totalPages) this.currentPage++;
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedAppointments();
+    }
+  }
+
+  // Redirige al componente de registro de citas
+  addAppointment(): void {
+    this.router.navigate(['/registro-cita']); // Redirige a la ruta 'registro-cita'
+  }
+  addAppointment2(): void {
+    this.router.navigate(['/cita-detalle']); // Redirige a la ruta 'registro-cita'
   }
 }

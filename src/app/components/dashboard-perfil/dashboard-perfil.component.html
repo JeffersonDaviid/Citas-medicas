@@ -2,17 +2,17 @@
   <!-- Encabezado -->
   <header class="dashboard-header">
     <div class="profile">
-      <!-- <img src="assets/avatar.png" alt="Perfil Médico" class="profile-img" /> -->
-      <span class="profile-name">Dra. Daniela Ortiz</span>
+      <img src="assets/asistencia-medica.png" alt="Perfil Médico" class="profile-img" />
+      <span class="profile-name">Dr. {{ doctorName }}</span>
     </div>
-    <button class="logout-btn" (click)="onLogout()">Cerrar Sesión</button>
   </header>
 
   <!-- Contenido Principal -->
   <main class="dashboard-main">
-    <section class="patient-table-section">
+    <!-- Lista de Citas -->
+    <section class="appointment-list">
       <h2>Lista de Pacientes</h2>
-      <div class="table-wrapper">
+      <div *ngIf="paginatedAppointments.length > 0; else noAppointments">
         <table>
           <thead>
             <tr>
@@ -24,29 +24,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let patient of patients">
-              <td>{{ patient.name }}</td>
-              <td>{{ patient.age }}</td>
-              <td>{{ patient.gender }}</td>
-              <td>{{ patient.contact }}</td>
+            <tr *ngFor="let appointment of paginatedAppointments">
+              <td>{{ appointment.paciente.nombre }}</td>
+              <td>{{ appointment.paciente.edad }}</td>
+              <td>{{ appointment.paciente.genero }}</td>
+              <td>{{ appointment.paciente.contacto }}</td>
               <td>
-                <button (click)="viewPatient(patient.id)">Ver</button>
+                <button (click)="addAppointment()">Ver</button>
               </td>
             </tr>
           </tbody>
         </table>
         <div class="pagination">
-          <button (click)="previousPage()" [disabled]="currentPage === 1">
-            Anterior
-          </button>
+          <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
           <span>Página {{ currentPage }} de {{ totalPages }}</span>
-          <button (click)="nextPage()" [disabled]="currentPage === totalPages">
-            Siguiente
-          </button>
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
         </div>
       </div>
+      <ng-template #noAppointments>
+        <p>No hay citas asignadas para {{ selectedDate | date: 'fullDate' }}.</p>
+      </ng-template>      
     </section>
 
+    <!-- Calendario -->
     <section class="calendar-section">
       <h2>Calendario</h2>
       <mat-calendar (selectedChange)="onDateChange($event)"></mat-calendar>
@@ -54,7 +54,5 @@
   </main>
 
   <!-- Botón para registrar citas -->
-  <button class="add-appointment-btn" (click)="addAppointment()">
-    Registrar Cita
-  </button>
+  <button class="add-appointment-btn" (click)="addAppointment()">Registrar Cita</button>
 </div>
