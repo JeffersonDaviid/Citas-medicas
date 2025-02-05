@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Global } from 'src/app/services/global';
 
 @Component({
   selector: 'app-dashboard-perfil',
@@ -48,9 +49,16 @@ export class DashboardPerfilComponent implements OnInit {
     }
 
     const formattedDate = this.selectedDate.toISOString().split('T')[0]; // Formatear fecha como YYYY-MM-DD
-    const url = `https://citas-medicas-backend.onrender.com/citas-doctor/${this.doctorId}/fecha?fecha=${formattedDate}`;
+    const url =
+      Global.url + `/citas-por-fecha/${this.doctorId}/${formattedDate}`;
+    const token = localStorage.getItem('token');
 
-    this.http.get(url).subscribe(
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+
+    this.http.get(url, { headers }).subscribe(
       (response: any) => {
         this.appointments = response.citas || []; // Guardar todas las citas
         this.totalPages = Math.ceil(
