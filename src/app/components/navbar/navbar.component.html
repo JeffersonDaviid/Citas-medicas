@@ -11,7 +11,6 @@
     <li><a routerLink="/inicio" routerLinkActive="active">Inicio</a></li>
     <li *ngIf="!isAuthenticated()"><a routerLink="/login" routerLinkActive="active">Iniciar sesión</a></li>
     <li *ngIf="!isAuthenticated()"><a routerLink="/registro" routerLinkActive="active">Registrarse</a></li>
-    
     <!-- Opciones para el paciente -->
     <li *ngIf="isAuthenticated() && tipoUsuario === 'paciente'">
       <a routerLink="/registro-cita" routerLinkActive="active">Registro de cita</a>

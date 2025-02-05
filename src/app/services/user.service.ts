@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
@@ -44,6 +44,7 @@ export class UserService {
             localStorage.setItem('currentUser', JSON.stringify(response.user));
           } else if (tipoUsuario === 'doctor' && response.doctor) {
             // Para doctores: almacenar solo la información del doctor
+            localStorage.setItem('token', response.token);
             localStorage.setItem(
               'currentUser',
               JSON.stringify(response.doctor)

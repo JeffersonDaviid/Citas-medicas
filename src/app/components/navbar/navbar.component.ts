@@ -1,25 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   menuActive = false;
-  tipoUsuario: string | null = null;  // Guardará si es "paciente" o "doctor"
+  tipoUsuario: string | null = null; // Guardará si es "paciente" o "doctor"
 
   constructor(public userService: UserService, private router: Router) {}
 
-  ngOnInit(): void {
-    // Verifica el tipo de usuario en localStorage
-    const user = localStorage.getItem('user') || localStorage.getItem('doctor');
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      this.tipoUsuario = localStorage.getItem('user') ? 'paciente' : 'doctor';
-    }
+  ngDoCheck(): void {
+    if (localStorage.getItem('user')) this.tipoUsuario = 'paciente';
+    else if (localStorage.getItem('doctor')) this.tipoUsuario = 'doctor';
   }
 
   toggleMenu() {
@@ -31,6 +27,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    localStorage.clear();
     this.userService.logout();
     this.router.navigate(['/inicio']);
   }

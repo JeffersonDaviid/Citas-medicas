@@ -10,15 +10,19 @@ import { UserService } from '../../services/user.service';
 })
 export class InicioSesionComponent implements OnInit {
   loginForm!: FormGroup;
-  errorMessage: string = '';  // Mensaje general de error
+  errorMessage: string = ''; // Mensaje general de error
 
-  constructor(private fb: FormBuilder, private router: Router, private userService: UserService) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      tipoUsuario: ['paciente', Validators.required],  // Valor predeterminado como paciente
+      tipoUsuario: ['paciente', Validators.required], // Valor predeterminado como paciente
     });
   }
 
@@ -34,19 +38,20 @@ export class InicioSesionComponent implements OnInit {
             // Guardar datos en localStorage según el tipo de usuario
             if (tipoUsuario === 'paciente') {
               localStorage.setItem('user', JSON.stringify(response.user));
-              localStorage.setItem('token', response.token);  // Solo pacientes usan token
               this.router.navigate(['/registro-cita']);
             } else if (tipoUsuario === 'doctor') {
               localStorage.setItem('doctor', JSON.stringify(response.doctor));
               this.router.navigate(['/perfil']);
             }
           } else {
-            this.errorMessage = 'Respuesta incompleta del servidor. Por favor, inténtelo de nuevo.';
+            this.errorMessage =
+              'Respuesta incompleta del servidor. Por favor, inténtelo de nuevo.';
           }
         },
         error: (err) => {
           console.error('Error al iniciar sesión:', err);
-          this.errorMessage = err.error?.message || 'Error al ingresar. Verifica los datos.';
+          this.errorMessage =
+            err.error?.message || 'Error al ingresar. Verifica los datos.';
         },
       });
     }
