@@ -1,3 +1,3 @@
 export var Global = {
-  url: 'http://localhost:3600',
+  url: 'https://citas-medicas-backend.onrender.com',
 };
