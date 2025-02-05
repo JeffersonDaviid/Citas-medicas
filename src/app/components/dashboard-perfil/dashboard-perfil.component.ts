@@ -60,7 +60,8 @@ export class DashboardPerfilComponent implements OnInit {
 
     this.http.get(url, { headers }).subscribe(
       (response: any) => {
-        this.appointments = response.citas || []; // Guardar todas las citas
+        this.appointments = response || []; // Guardar todas las citas
+        console.log(this.appointments);
         this.totalPages = Math.ceil(
           this.appointments.length / this.itemsPerPage
         ); // Calcular el total de páginas
@@ -101,7 +102,7 @@ export class DashboardPerfilComponent implements OnInit {
   addAppointment(): void {
     this.router.navigate(['/registro-cita']); // Redirige a la ruta 'registro-cita'
   }
-  addAppointment2(): void {
-    this.router.navigate(['/cita-detalle']); // Redirige a la ruta 'registro-cita'
+  addAppointment2(id: any): void {
+    this.router.navigate(['/cita-detalle', id]); // Redirige a la ruta 'registro-cita'
   }
 }

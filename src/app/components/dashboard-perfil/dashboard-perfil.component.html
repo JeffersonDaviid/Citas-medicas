@@ -16,23 +16,28 @@
         <table>
           <thead>
             <tr>
+              <th>Cedula</th>
               <th>Nombre</th>
-              <th>Edad</th>
-              <th>Género</th>
+              <th>Hora Cita</th>
               <th>Contacto</th>
+              <th>Email</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let appointment of paginatedAppointments">
-              <td>{{ appointment.paciente.nombre }}</td>
-              <td>{{ appointment.paciente.edad }}</td>
-              <td>{{ appointment.paciente.genero }}</td>
-              <td>{{ appointment.paciente.contacto }}</td>
+              <td>{{ appointment.paciente?.cedula }}</td>
+              <td>{{ appointment.paciente?.nombre }}</td>
+              <td>{{ appointment.hora }}</td>
+              <td>{{ appointment.paciente?.telefono }}</td>
+              <td>{{ appointment.paciente?.email }}</td>
               <td>
-                <button (click)="addAppointment()">Ver</button>
+                <a [routerLink]="['/cita', appointment._id]" class="book-link">
+                  Ver detalles
+                </a>
               </td>
             </tr>
+
           </tbody>
         </table>
         <div class="pagination">
@@ -43,7 +48,7 @@
       </div>
       <ng-template #noAppointments>
         <p>No hay citas asignadas para {{ selectedDate | date: 'fullDate' }}.</p>
-      </ng-template>      
+      </ng-template>
     </section>
 
     <!-- Calendario -->
