@@ -48,12 +48,14 @@ export class DashboardPerfilComponent implements OnInit {
     }
 
     const formattedDate = this.selectedDate.toISOString().split('T')[0]; // Formatear fecha como YYYY-MM-DD
-    const url = `http://localhost:3600/citas-doctor/${this.doctorId}/fecha?fecha=${formattedDate}`;
+    const url = `https://citas-medicas-backend.onrender.com/citas-doctor/${this.doctorId}/fecha?fecha=${formattedDate}`;
 
     this.http.get(url).subscribe(
       (response: any) => {
         this.appointments = response.citas || []; // Guardar todas las citas
-        this.totalPages = Math.ceil(this.appointments.length / this.itemsPerPage); // Calcular el total de páginas
+        this.totalPages = Math.ceil(
+          this.appointments.length / this.itemsPerPage
+        ); // Calcular el total de páginas
         this.updatePaginatedAppointments(); // Actualizar las citas para la página actual
       },
       (error) => {
