@@ -1,27 +1,69 @@
-# CitasMedicas
+# 📅 MedicalApp – Reserva de Citas Médicas Online
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
+Una aplicación web de **reserva de citas médicas** que permite a los pacientes registrarse, navegar por áreas de salud, consultar horarios disponibles y gestionar sus citas de forma fácil e intuitiva. Los médicos se incorporan al sistema mediante llamadas directas al API (e.g. Postman).
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 📌 Características Principales
 
-## Code scaffolding
+- **Registro y autenticación de pacientes**  
+  Los usuarios/pacientes pueden registrarse, iniciar sesión y recuperar su contraseña desde la UI.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Consulta de médicos y horarios**  
+  - Filtrado por **áreas de salud** (cardiología, dermatología, pediatría, etc.).  
+  - Visualización de franjas horarias disponibles en un calendario interactivo.
 
-## Build
+- **Gestión de citas**  
+  - Al confirmar, el paciente recibe un **correo automático** con los datos de la cita.  
+  - Desde ese mismo correo puede **cancelar** su cita con un solo clic.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## 🛠️ Tecnologías
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- **Frontend**  
+  - Angular (Componentes, Servicios, RxJS)  
+  - HTML5 & CSS3 (Flexbox, Grid)  
+  - TypeScript
 
-## Further help
+- **Correo**  
+  - Nodemailer para notificaciones automáticas
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- **Backend**  
+  - Node.js + Express [repositorio separado](https://github.com/JeffersonDaviid/citas-medicas-backend)
+  - MongoDB  
+  - JWT para autenticación
+
+---
+
+## 🚀 Instalación & Uso
+
+1. **Clonar repositorio Frontend**  
+   ```bash
+   git clone https://github.com/JeffersonDaviid/Citas-medicas
+2. **Iniciar aplicación**
+    ```bash
+    npm run install
+    npm run start
+
+
+ 
+
+## Capturas demo
+
+### Página principal
+![Home](docs/screenshots/landing.png)
+
+### Inicio de Sesión
+![Login](docs/screenshots/login.png)
+
+### Panel Principal del Usuario
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Selección de Horario
+![Calendario](docs/screenshots/calendar.png)
+
+### Correo de Confirmación
+![Correo confirmación](docs/screenshots/email.png)
