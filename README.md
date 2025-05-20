@@ -43,10 +43,12 @@ Una aplicación web de **reserva de citas médicas** que permite a los pacientes
 1. **Clonar repositorio Frontend**  
    ```bash
    git clone https://github.com/JeffersonDaviid/Citas-medicas
+   ```
 2. **Iniciar aplicación**
     ```bash
     npm run install
     npm run start
+    ```
 
 
  
